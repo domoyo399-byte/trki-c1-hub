@@ -20,16 +20,23 @@ button,input,.filebtn{width:100%;font:inherit;color:var(--t);background:var(--p)
 .result{display:none;margin-top:12px;padding:13px;border-radius:14px;line-height:1.65;font-size:13px}.result.ok{display:block;background:var(--ok)}.result.bad{display:block;background:var(--bad)}.result.mid{display:block;background:var(--mid)}
 details{margin-top:13px}summary{cursor:pointer;font-weight:700}.urlgrid{display:grid;gap:7px}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
 @media(max-width:600px){.apps{grid-template-columns:1fr}.actions{grid-template-columns:1fr}}
+
+/* candidate-v3 viewport safety. One document scroller; no fixed body height or nested scroll traps. */
+html{min-height:100%;height:auto;overflow-y:auto;overscroll-behavior-y:none;-webkit-text-size-adjust:100%}
+body{min-height:100svh;height:auto;overflow-x:clip;overscroll-behavior-y:none}
+.wrap{min-height:100svh;max-width:100%}
+@media(min-width:700px){.wrap{max-width:840px}}
+@supports not (height:100svh){body,.wrap{min-height:100vh}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="hero"><h1>ТРКИ-C1 学习中心</h1><div class="build-tag">Hub v2.2.0 Candidate · 三站网址独立保存</div><div class="sub">每日同步一次；三库自动保存；电脑和手机之间可用“跨设备接力包”继续未完成训练。</div></div>
+  <div class="hero"><h1>ТРКИ-C1 学习中心</h1><div class="build-tag">Hub Storage v2 Candidate · 单仓库导航版 v3</div><div class="sub">每日同步一次；三库自动保存；电脑和手机之间可用“跨设备接力包”继续未完成训练。</div></div>
 
   <div class="apps">
-    <a class="app" id="vocabLink" href="https://domoyo399-byte.github.io/trki-c1-flashcards/candidate-v2/"><span class="icon">📚</span><b>单词复习</b><span>词汇 · A/R/G</span><span class="resume" id="vocabSessionText"></span></a>
-    <a class="app" id="phraseLink" href="https://domoyo399-byte.github.io/trki-c1-phrases/candidate-v2/"><span class="icon">💬</span><b>输出语料</b><span>写作 · 口语调用</span><span class="resume" id="phraseSessionText"></span></a>
-    <a class="app" id="grammarLink" href="https://domoyo399-byte.github.io/trki-c1-grammar-errors/candidate-v2/"><span class="icon">🧩</span><b>语法错题</b><span>原题 · 变式 · ruleId</span><span class="resume" id="grammarSessionText"></span></a>
+    <a class="app" id="vocabLink" href="vocabulary/"><span class="icon">📚</span><b>单词复习</b><span>词汇 · A/R/G</span><span class="resume" id="vocabSessionText"></span></a>
+    <a class="app" id="phraseLink" href="phrases/"><span class="icon">💬</span><b>输出语料</b><span>写作 · 口语调用</span><span class="resume" id="phraseSessionText"></span></a>
+    <a class="app" id="grammarLink" href="grammar/"><span class="icon">🧩</span><b>语法错题</b><span>原题 · 变式 · ruleId</span><span class="resume" id="grammarSessionText"></span></a>
   </div>
 
   <div class="panel">
@@ -89,14 +96,14 @@ details{margin-top:13px}summary{cursor:pointer;font-weight:700}.urlgrid{display:
     <summary>维护与安全工具</summary>
     <button id="undoLast" style="margin-top:12px">撤销上一次导入 / 恢复</button>
     <button id="removeDemo" style="margin-top:8px">清除旧版演示数据</button>
-    <h3>三个网站地址</h3>
+    <h3>当前测试版站内地址（自动生成）</h3>
     <div class="urlgrid">
-      <input id="vocabUrl" value="https://domoyo399-byte.github.io/trki-c1-flashcards/candidate-v2/" placeholder="单词网站 URL">
-      <input id="phraseUrl" value="https://domoyo399-byte.github.io/trki-c1-phrases/candidate-v2/" placeholder="语料网站 URL">
-      <input id="grammarUrl" value="https://domoyo399-byte.github.io/trki-c1-grammar-errors/candidate-v2/" placeholder="错题网站 URL">
-      <button id="saveUrls">保存网站地址</button><div id="urlStatus" class="muted" role="status" aria-live="polite">内置三个默认网址，可直接使用。</div>
+      <input id="vocabUrl" value="vocabulary/" placeholder="单词网站 URL">
+      <input id="phraseUrl" value="phrases/" placeholder="语料网站 URL">
+      <input id="grammarUrl" value="grammar/" placeholder="错题网站 URL">
+      <button id="saveUrls" type="button">检查三个站点是否已部署</button><div id="urlStatus" class="muted" role="status" aria-live="polite">本测试版的链接由文件夹自动生成，不受旧网址设置影响。</div>
     </div>
-    <div class="muted" style="margin-top:8px">如果你的仓库名和默认值不同，在这里改一次即可。</div>
+    <div class="muted" style="margin-top:8px">三个学习站都打包在当前仓库的 candidate-v3 文件夹内。网址自动匹配当前 Hub 位置，不必再修改。</div>
   </details>
 
   <div class="panel">
@@ -104,68 +111,37 @@ details{margin-top:13px}summary{cursor:pointer;font-weight:700}.urlgrid{display:
     <div class="muted">同一台设备：三个训练网页会在每题完成后自动保存未完成会话，关掉页面再回来也能继续。跨设备：由于 GitHub Pages 的 localStorage 不会自动云同步，需要导出一次“接力包”，在另一台设备导入一次。这里没有接第三方后端，因此速度快、结构简单，也不会因为网络同步冲突拖慢刷题。</div>
   </div>
 </div>
-<script id="trki-urls-independent">
-/* Version 2.2.0: completely independent of IndexedDB, safe static HTML fallbacks. */
+<script id="trki-urls-single-repo-candidate-v3">
 (function(){
 'use strict';
-const KEY='trki_c1_hub_urls_v1';
-const DEFAULTS={
- vocab:'https://domoyo399-byte.github.io/trki-c1-flashcards/candidate-v2/',
- phrase:'https://domoyo399-byte.github.io/trki-c1-phrases/candidate-v2/',
- grammar:'https://domoyo399-byte.github.io/trki-c1-grammar-errors/candidate-v2/'
-};
-const entries={vocab:['vocabLink','vocabUrl'],phrase:['phraseLink','phraseUrl'],grammar:['grammarLink','grammarUrl']};
-let sessionConfig=null;
-const indicator=document.getElementById('urlStatus');
-function note(text,isError){indicator.textContent=text;indicator.style.color=isError?'#e17451':''}
-function valid(value){
- if(typeof value!=='string'||!value.trim())return null;
- try{const u=new URL(value.trim());return /^https?:$/.test(u.protocol)?u.href:null}catch(e){return null}
-}
-function stored(){
- try {
-  const raw=localStorage.getItem(KEY);
-  if(!raw)return {config:null};
-  const value=JSON.parse(raw);
-  if(!value||typeof value!=='object'||Array.isArray(value))return {config:null,warning:'保存的网址数据格式不正确，已启用内置默认网址。'};
-  return {config:value};
- }catch(e){return {config:null,warning:'暂时无法读取已保存的网址（'+(e.name||'Error')+'），当前使用内置默认网址。'}}
-}
-function apply(){
- const storedResult=stored();
- const c=sessionConfig||storedResult.config||{};
- for(const [name,ids] of Object.entries(entries)){
-   const entered=valid(c[name]);
-   const url=(entered&&entered.includes('/candidate-v2/'))?entered:DEFAULTS[name]; // Preview never silently routes to old Stable
-   document.getElementById(ids[0]).setAttribute('href',url);
-   document.getElementById(ids[1]).value=url;
+/* No old localStorage URL lookup. All pages must stay inside this directory. */
+const paths={vocab:'vocabulary/',phrase:'phrases/',grammar:'grammar/'};
+const ids={vocab:['vocabLink','vocabUrl'],phrase:['phraseLink','phraseUrl'],grammar:['grammarLink','grammarUrl']};
+const base=new URL('./', location.href);
+const expected={};
+for(const k of Object.keys(paths))expected[k]=new URL(paths[k],base).href;
+const status=document.getElementById('urlStatus');
+function apply(){for(const k of Object.keys(paths)){
+ const [link,input]=ids[k];document.getElementById(link).href=expected[k];
+ const field=document.getElementById(input);field.value=expected[k];field.readOnly=true;
+}}
+async function check(){
+ const btn=document.getElementById('saveUrls');btn.disabled=true;
+ status.textContent='正在检查三个站点是否实际存在…';
+ const report=[];
+ for(const k of Object.keys(paths)){
+  try{
+   const r=await fetch(new URL(paths[k]+'index.html',base).href+'?deployCheck='+Date.now(),{cache:'no-store'});
+   const txt=r.ok?await r.text():'';
+   const ok=r.ok&&txt.includes('TRKI-C1')&&txt.includes('trki_c1_learning_storage_v2_20261022');
+   report.push((ok?'✓ ':'✗ ')+({vocab:'词汇',phrase:'语料',grammar:'语法'}[k])+(ok?'：已找到测试版':'：未找到正确版本（HTTP '+r.status+'）'));
+  }catch(e){report.push('✗ '+({vocab:'词汇',phrase:'语料',grammar:'语法'}[k])+'：无法访问 '+(e.name||''));}
  }
- if(storedResult.warning)note(storedResult.warning,true);
- else if(sessionConfig)note('网址已在本页面更新。',false);
- else if(storedResult.config)note('已读取上次保存的三个网址。',false);
- else note('已启用内置的三个网站网址，无需手动填写。',false);
+ status.style.whiteSpace='pre-line';status.textContent=report.join('\n');
+ btn.disabled=false;
 }
-function save(){
- const next={};
- for(const [name,ids] of Object.entries(entries)){
-  const input=document.getElementById(ids[1]);const url=valid(input.value);
-  if(!url||!url.includes('/candidate-v2/')){note('当前是 Candidate，网址必须指向 /candidate-v2/，避免返回旧版站点：'+name,true);input.focus();return}
-  next[name]=url;
- }
- try{
-  localStorage.setItem(KEY,JSON.stringify(next));
-  const check=JSON.parse(localStorage.getItem(KEY)||'null');
-  if(!check||Object.keys(entries).some(k=>check[k]!==next[k]))throw Error('写入后读取核验失败');
-  sessionConfig=null;apply();note('三个网址已保存并通过回读校验；重新打开仍应保留。',false);
- }catch(e){
-  sessionConfig=next;
-  apply();note('当前页面可使用，但网址没能持久保存：'+(e.name||'Error')+' '+(e.message||'')+'。内置链接仍可使用，请勿清除浏览器数据。',true);
- }
-}
-const btn=document.getElementById('saveUrls');
-btn.addEventListener('click',save);
-apply();
-window.TRKINav={apply,defaults:DEFAULTS};
+document.getElementById('saveUrls').addEventListener('click',check);
+apply();window.TRKINav={apply,defaults:expected};
 })();
 </script>
 <script>
@@ -416,9 +392,9 @@ const VOCAB_KEY="trki_c1_srs_v5",PHRASE_KEY="trki_c1_phrase_db_v1",ERROR_KEY="tr
 const VOCAB_SESSION="trki_c1_vocab_session_v1",PHRASE_SESSION="trki_c1_phrase_session_v1",GRAMMAR_SESSION="trki_c1_grammar_session_v1";
 const META_KEY="trki_c1_hub_meta_v2",UNDO_KEY="trki_c1_hub_undo_v1",URL_KEY="trki_c1_hub_urls_v1";
 const DEFAULT_URLS={
- vocab:"https://domoyo399-byte.github.io/trki-c1-flashcards/candidate-v2/",
- phrase:"https://domoyo399-byte.github.io/trki-c1-phrases/candidate-v2/",
- grammar:"https://domoyo399-byte.github.io/trki-c1-grammar-errors/candidate-v2/"
+ vocab:"vocabulary/",
+ phrase:"phrases/",
+ grammar:"grammar/"
 };
 function safeJSON(k){try{return JSON.parse(TRKIStore.getItem(k)||"null")}catch(e){return null}}
 function saveJSON(k,v){TRKIStore.setItem(k,JSON.stringify(v))}
