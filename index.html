@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<title>ТРКИ-C1 学习中心 v2.1 Candidate · IndexedDB</title>
+<title>ТРКИ-C1 学习中心 v2.2.0 Candidate · IndexedDB 独立网址及故障保护</title>
 <style>
 :root{--bg:#f5f5f8;--p:#fff;--t:#17171a;--m:#777780;--l:#dddde5;--ac:#5b5bd6;--ok:#eaf7ed;--mid:#fff5d3;--bad:#fff0f0;--chip:#f0f0f5}
 @media(prefers-color-scheme:dark){:root{--bg:#111116;--p:#1d1d23;--t:#f5f5f6;--m:#aaaab4;--l:#393942;--ac:#9292ff;--ok:#203127;--mid:#3b351f;--bad:#3c2424;--chip:#292930}}
@@ -14,7 +14,7 @@ button,input,.filebtn{width:100%;font:inherit;color:var(--t);background:var(--p)
 .hero,.panel{background:var(--p);border:1px solid var(--l);border-radius:22px;padding:16px;margin-top:13px}h1{font-size:23px;margin:0 0 6px}h2{font-size:17px;margin:0 0 10px}h3{font-size:15px;margin:14px 0 7px}
 .sub,.muted{font-size:13px;color:var(--m);line-height:1.65}.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}
 .app{text-decoration:none;color:var(--t);background:var(--p);border:1px solid var(--l);border-radius:18px;padding:16px 9px;text-align:center}.app .icon{font-size:28px;display:block;margin-bottom:6px}.app b{display:block;font-size:14px}.app span{display:block;color:var(--m);font-size:11px;margin-top:5px}
-.app .resume{color:var(--ac);font-weight:700;min-height:16px}.primary{background:var(--ac);color:#fff;border-color:transparent;font-weight:800;font-size:16px}
+.build-tag{font-size:11px;color:var(--m);margin-top:5px}.migration-body{padding-top:6px}.migration-title{font-size:17px;color:var(--t)}.app .resume{color:var(--ac);font-weight:700;min-height:16px}.primary{background:var(--ac);color:#fff;border-color:transparent;font-weight:800;font-size:16px}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{text-align:center;background:var(--bg);padding:12px 5px;border-radius:13px}.stat b{display:block;font-size:20px}.stat span{font-size:11px;color:var(--m)}
 .row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--l)}.row:last-child{border:0}.filebtn{text-align:center;display:block}input[type=file]{display:none}
 .result{display:none;margin-top:12px;padding:13px;border-radius:14px;line-height:1.65;font-size:13px}.result.ok{display:block;background:var(--ok)}.result.bad{display:block;background:var(--bad)}.result.mid{display:block;background:var(--mid)}
@@ -24,38 +24,39 @@ details{margin-top:13px}summary{cursor:pointer;font-weight:700}.urlgrid{display:
 </head>
 <body>
 <div class="wrap">
-  <div class="hero"><h1>ТРКИ-C1 学习中心</h1><div class="sub">每日同步一次；三库自动保存；电脑和手机之间可用“跨设备接力包”继续未完成训练。</div></div>
+  <div class="hero"><h1>ТРКИ-C1 学习中心</h1><div class="build-tag">Hub v2.2.0 Candidate · 三站网址独立保存</div><div class="sub">每日同步一次；三库自动保存；电脑和手机之间可用“跨设备接力包”继续未完成训练。</div></div>
 
   <div class="apps">
-    <a class="app" id="vocabLink"><span class="icon">📚</span><b>单词复习</b><span>词汇 · A/R/G</span><span class="resume" id="vocabSessionText"></span></a>
-    <a class="app" id="phraseLink"><span class="icon">💬</span><b>输出语料</b><span>写作 · 口语调用</span><span class="resume" id="phraseSessionText"></span></a>
-    <a class="app" id="grammarLink"><span class="icon">🧩</span><b>语法错题</b><span>原题 · 变式 · ruleId</span><span class="resume" id="grammarSessionText"></span></a>
+    <a class="app" id="vocabLink" href="https://domoyo399-byte.github.io/trki-c1-flashcards/"><span class="icon">📚</span><b>单词复习</b><span>词汇 · A/R/G</span><span class="resume" id="vocabSessionText"></span></a>
+    <a class="app" id="phraseLink" href="https://domoyo399-byte.github.io/trki-c1-phrases/"><span class="icon">💬</span><b>输出语料</b><span>写作 · 口语调用</span><span class="resume" id="phraseSessionText"></span></a>
+    <a class="app" id="grammarLink" href="https://domoyo399-byte.github.io/trki-c1-grammar-errors/"><span class="icon">🧩</span><b>语法错题</b><span>原题 · 变式 · ruleId</span><span class="resume" id="grammarSessionText"></span></a>
   </div>
 
   <div class="panel">
     <h2>当前三库</h2>
     <div class="grid">
-      <div class="stat"><b id="vocabN">0</b><span>单词</span></div>
-      <div class="stat"><b id="phraseN">0</b><span>语料</span></div>
-      <div class="stat"><b id="errorN">0</b><span>错题</span></div>
+      <div class="stat"><b id="vocabN">—</b><span>单词</span></div>
+      <div class="stat"><b id="phraseN">—</b><span>语料</span></div>
+      <div class="stat"><b id="errorN">—</b><span>错题</span></div>
     </div>
-    <div class="row" style="margin-top:8px"><span>单词到期</span><b id="vocabDue">0</b></div>
-    <div class="row"><span>语料到期</span><b id="phraseDue">0</b></div>
-    <div class="row"><span>错题到期</span><b id="errorDue">0</b></div>
+    <div class="muted" id="libraryLoadStatus" role="status" aria-live="polite" style="margin-top:9px">三库正在读取；“—”暂不代表数据为空。</div>
+    <div class="row" style="margin-top:8px"><span>单词到期</span><b id="vocabDue">—</b></div>
+    <div class="row"><span>语料到期</span><b id="phraseDue">—</b></div>
+    <div class="row"><span>错题到期</span><b id="errorDue">—</b></div>
     <div class="row"><span>上次每日同步</span><b id="lastImport">—</b></div>
     <div class="row"><span>localStorage 占用</span><b id="storageUse">—</b></div>
     <div class="row"><span>IndexedDB 数据（估算）</span><b id="dbStorageUse">—</b></div>
   </div>
 
-  <div class="panel">
-    <h2>安全存储升级 · IndexedDB</h2>
+  <details class="panel" id="migrationPanel" open>
+    <summary class="migration-title">安全存储 · <span id="migrationSummary">正在检测…</span></summary><div class="migration-body">
     <div class="muted">这是免费、离线可用的浏览器数据库。迁移前必须先部署本次 ZIP 中全部四站的新版 index.html，并保留 Stable 原代码。先下载三库总备份并检查其实际存在，再关闭单词、语料、错题等所有其他学习标签页，最后勾选确认迁移。迁移后旧版网页不能继续使用。</div>
     <div class="row"><span>当前状态</span><b id="migrationStatus">检查中…</b></div>
     <button id="preMigrationBackup" style="margin:10px 0">① 导出迁移前完整备份</button>
     <label style="display:block;font-size:14px;margin:12px 0;line-height:1.5"><input type="checkbox" id="backupConfirmed" style="width:auto;vertical-align:middle;margin-right:8px">② 我已检查备份文件、确认四站均是 Candidate，且已关闭其他学习标签页</label>
     <button class="primary" id="migrateNow">③ 验证数据并迁移到 IndexedDB</button>
     <div id="migrationResult" class="result"></div>
-  </div>
+    </div></details>
 
   <div class="panel">
     <h2>今日数据 · 一次导入</h2>
@@ -90,10 +91,10 @@ details{margin-top:13px}summary{cursor:pointer;font-weight:700}.urlgrid{display:
     <button id="removeDemo" style="margin-top:8px">清除旧版演示数据</button>
     <h3>三个网站地址</h3>
     <div class="urlgrid">
-      <input id="vocabUrl" placeholder="单词网站 URL">
-      <input id="phraseUrl" placeholder="语料网站 URL">
-      <input id="grammarUrl" placeholder="错题网站 URL">
-      <button id="saveUrls">保存网站地址</button>
+      <input id="vocabUrl" value="https://domoyo399-byte.github.io/trki-c1-flashcards/" placeholder="单词网站 URL">
+      <input id="phraseUrl" value="https://domoyo399-byte.github.io/trki-c1-phrases/" placeholder="语料网站 URL">
+      <input id="grammarUrl" value="https://domoyo399-byte.github.io/trki-c1-grammar-errors/" placeholder="错题网站 URL">
+      <button id="saveUrls">保存网站地址</button><div id="urlStatus" class="muted" role="status" aria-live="polite">内置三个默认网址，可直接使用。</div>
     </div>
     <div class="muted" style="margin-top:8px">如果你的仓库名和默认值不同，在这里改一次即可。</div>
   </details>
@@ -103,6 +104,69 @@ details{margin-top:13px}summary{cursor:pointer;font-weight:700}.urlgrid{display:
     <div class="muted">同一台设备：三个训练网页会在每题完成后自动保存未完成会话，关掉页面再回来也能继续。跨设备：由于 GitHub Pages 的 localStorage 不会自动云同步，需要导出一次“接力包”，在另一台设备导入一次。这里没有接第三方后端，因此速度快、结构简单，也不会因为网络同步冲突拖慢刷题。</div>
   </div>
 </div>
+<script id="trki-urls-independent">
+/* Version 2.2.0: completely independent of IndexedDB, safe static HTML fallbacks. */
+(function(){
+'use strict';
+const KEY='trki_c1_hub_urls_v1';
+const DEFAULTS={
+ vocab:'https://domoyo399-byte.github.io/trki-c1-flashcards/',
+ phrase:'https://domoyo399-byte.github.io/trki-c1-phrases/',
+ grammar:'https://domoyo399-byte.github.io/trki-c1-grammar-errors/'
+};
+const entries={vocab:['vocabLink','vocabUrl'],phrase:['phraseLink','phraseUrl'],grammar:['grammarLink','grammarUrl']};
+let sessionConfig=null;
+const indicator=document.getElementById('urlStatus');
+function note(text,isError){indicator.textContent=text;indicator.style.color=isError?'#e17451':''}
+function valid(value){
+ if(typeof value!=='string'||!value.trim())return null;
+ try{const u=new URL(value.trim());return /^https?:$/.test(u.protocol)?u.href:null}catch(e){return null}
+}
+function stored(){
+ try {
+  const raw=localStorage.getItem(KEY);
+  if(!raw)return {config:null};
+  const value=JSON.parse(raw);
+  if(!value||typeof value!=='object'||Array.isArray(value))return {config:null,warning:'保存的网址数据格式不正确，已启用内置默认网址。'};
+  return {config:value};
+ }catch(e){return {config:null,warning:'暂时无法读取已保存的网址（'+(e.name||'Error')+'），当前使用内置默认网址。'}}
+}
+function apply(){
+ const storedResult=stored();
+ const c=sessionConfig||storedResult.config||{};
+ for(const [name,ids] of Object.entries(entries)){
+   const url=valid(c[name])||DEFAULTS[name];
+   document.getElementById(ids[0]).setAttribute('href',url);
+   document.getElementById(ids[1]).value=url;
+ }
+ if(storedResult.warning)note(storedResult.warning,true);
+ else if(sessionConfig)note('网址已在本页面更新。',false);
+ else if(storedResult.config)note('已读取上次保存的三个网址。',false);
+ else note('已启用内置的三个网站网址，无需手动填写。',false);
+}
+function save(){
+ const next={};
+ for(const [name,ids] of Object.entries(entries)){
+  const input=document.getElementById(ids[1]);const url=valid(input.value);
+  if(!url){note('网址格式不正确：'+name+'。请填写完整的 https:// 地址。',true);input.focus();return}
+  next[name]=url;
+ }
+ try{
+  localStorage.setItem(KEY,JSON.stringify(next));
+  const check=JSON.parse(localStorage.getItem(KEY)||'null');
+  if(!check||Object.keys(entries).some(k=>check[k]!==next[k]))throw Error('写入后读取核验失败');
+  sessionConfig=null;apply();note('三个网址已保存并通过回读校验；重新打开仍应保留。',false);
+ }catch(e){
+  sessionConfig=next;
+  apply();note('当前页面可使用，但网址没能持久保存：'+(e.name||'Error')+' '+(e.message||'')+'。内置链接仍可使用，请勿清除浏览器数据。',true);
+ }
+}
+const btn=document.getElementById('saveUrls');
+btn.addEventListener('click',save);
+apply();
+window.TRKINav={apply,defaults:DEFAULTS};
+})();
+</script>
 <script>
 /* TRKI-C1 IndexedDB storage bridge | Candidate 2026-10-21
  * Preserves legacy key names, page-local sessions and the original data shapes.
@@ -346,15 +410,7 @@ document.getElementById("removeDemo").onclick=async()=>{
  alert(`已清理：语料 ${p0-p.phrases.length} 条，错题 ${g0-g.items.length} 道。`);renderStats()
  }catch(e){alert('清理失败：'+e.message)}
 };
-function getUrls(){return {...DEFAULT_URLS,...(safeJSON(URL_KEY)||{})}}
-function applyUrls(){
-  const u=getUrls();document.getElementById("vocabLink").href=u.vocab;document.getElementById("phraseLink").href=u.phrase;document.getElementById("grammarLink").href=u.grammar;
-  document.getElementById("vocabUrl").value=u.vocab;document.getElementById("phraseUrl").value=u.phrase;document.getElementById("grammarUrl").value=u.grammar
-}
-document.getElementById("saveUrls").onclick=()=>{
-  const u={vocab:document.getElementById("vocabUrl").value.trim(),phrase:document.getElementById("phraseUrl").value.trim(),grammar:document.getElementById("grammarUrl").value.trim()};
-  if(!u.vocab||!u.phrase||!u.grammar){alert("三个网址都需要填写。");return}saveJSON(URL_KEY,u);applyUrls();alert("网站地址已保存。")
-};
+/* URL navigation is initialized above, independently from IndexedDB. */
 function sessionText(key,kind){
   const s=safeJSON(key);if(!s)return "";
   if(kind==="vocab"&&Array.isArray(s.queue)&&s.qi<s.queue.length)return `未完成 ${s.qi+1}/${s.queue.length}`;
@@ -363,6 +419,16 @@ function sessionText(key,kind){
   return ""
 }
 
+let migrationDisplayInit=false;
+let previouslyMigrated=false;
+function updateMigrationDisplay(){
+ const yes=TRKIStore.isMigrated;
+ document.getElementById('migrationSummary').textContent=yes?'已迁移 · IndexedDB':'尚未迁移 · 请备份';
+ const panel=document.getElementById('migrationPanel');
+ if(!migrationDisplayInit){ panel.open=!yes; migrationDisplayInit=true; }
+ else if(yes&&!previouslyMigrated)panel.open=false;
+ previouslyMigrated=yes;
+}
 function renderStats(){
   const v=getVocabDB(),p=getPhraseDB(),g=getErrorDB(),now=Date.now(),vc=Object.values(v.cards||{});
   document.getElementById("vocabN").textContent=vc.length;document.getElementById("phraseN").textContent=p.phrases.length;document.getElementById("errorN").textContent=g.items.length;
@@ -374,6 +440,8 @@ function renderStats(){
   document.getElementById("storageUse").textContent=(sizes.local/1024).toFixed(0)+" KB";
   document.getElementById("dbStorageUse").textContent=(sizes.db/1024).toFixed(0)+" KB";
   document.getElementById("migrationStatus").textContent=TRKIStore.isMigrated?'已迁移 · IndexedDB':'未迁移 · localStorage';
+  document.getElementById("libraryLoadStatus").textContent='学习数据已成功读取';
+  updateMigrationDisplay();
   document.getElementById("vocabSessionText").textContent=sessionText(VOCAB_SESSION,"vocab");
   document.getElementById("phraseSessionText").textContent=sessionText(PHRASE_SESSION,"phrase");
   document.getElementById("grammarSessionText").textContent=sessionText(GRAMMAR_SESSION,"grammar")
@@ -387,19 +455,48 @@ document.getElementById('migrateNow').onclick=async()=>{
  try{const r=await TRKIStore.migrate();showResult(resId,`迁移完成 ✅ 已核对 IndexedDB 内三库数据；迁入 ${r.moved} 个非空主库。旧版 localStorage 主库已在验证后释放空间。`, 'ok');renderStats()}
  catch(e){showResult(resId,'迁移失败，未主动删除旧版主库：'+e.message,'bad')}
 };
-applyUrls();renderStats();window.addEventListener("pageshow",renderStats);window.addEventListener("focus",renderStats);
+window.TRKINav.apply();renderStats();window.addEventListener("pageshow",renderStats);window.addEventListener("focus",renderStats);
 </script>
-<script>
-TRKIStore.init().then(() => {
-  const source=document.getElementById('trki-original-app');
-  const app=document.createElement('script');app.textContent=source.textContent;
-  document.body.appendChild(app);
-}).catch(error => {
-  const warning=document.createElement('div');warning.setAttribute('role','alert');
-  warning.style.cssText='position:sticky;top:0;z-index:999999;margin:12px;padding:18px;background:#fff0df;color:#6a2525;border:2px solid #c44;border-radius:12px;font:16px/1.6 sans-serif';
-  warning.textContent='学习数据库启动失败，为保护已有数据，已停止加载此页面：'+error.message+'。请勿清空浏览器数据。';
-  document.body.prepend(warning);
-});
+<script id="trki-startup-guard">
+/* IMPORTANT: links are initialized independently above, before IndexedDB. */
+(function(){
+'use strict';
+let booted=false,booting=false;
+const info=document.createElement('div');info.id='trki-startup-alert';info.setAttribute('role','alert');
+info.style.cssText='display:none;position:sticky;top:0;z-index:999999;margin:12px;padding:16px;background:#fff0df;color:#6a2525;border:2px solid #c44;border-radius:12px;font:15px/1.6 sans-serif';
+const detail=document.createElement('div');
+const retry=document.createElement('button');retry.type='button';retry.textContent='重新连接数据库（不删除数据）';
+retry.style.cssText='display:block;margin-top:12px;padding:12px;border-radius:9px;border:1px solid #a55;color:#642;background:#fff;font:inherit';
+info.append(detail,retry);document.body.prepend(info);
+async function boot(){
+ if(booted||booting)return;
+ booting=true;
+ document.getElementById('migrationStatus').textContent='正在连接 IndexedDB…';
+ try{
+   await Promise.race([
+     TRKIStore.init(),
+     new Promise((_,reject)=>setTimeout(()=>{const error=new Error('数据库连接超过12秒仍未完成，请检查浏览器状态后使用安全重试按钮。');error.name='TimeoutError';reject(error)},12000))
+   ]);
+   if(booted)return;
+   const app=document.createElement('script');
+   app.textContent=document.getElementById('trki-original-app').textContent;
+   document.body.appendChild(app);
+   booted=true;info.style.display='none';
+ }catch(error){
+   const name=(error&&error.name)||'Error';
+   const message=(error&&error.message)||String(error);
+   detail.textContent='学习数据库连接失败（'+name+'）：'+message+'。数据并未因此被主动删除。三个网站的导航地址已独立保留，但学习站能否读取数据仍取决于各自的数据库连接。请勿清理浏览器数据，也不要执行导入、迁移或恢复。';
+   info.style.display='block';
+   document.getElementById('migrationStatus').textContent='连接失败：'+name;
+   document.getElementById('libraryLoadStatus').textContent='数据库连接失败，学习数据尚未读取；当前数字不代表实际库存。';
+   document.getElementById('migrationSummary').textContent='数据库连接失败，请查看提示';
+   document.getElementById('migrationPanel').open=true;
+   for(const id of ['vocabN','phraseN','errorN','vocabDue','phraseDue','errorDue'])document.getElementById(id).textContent='—';
+ }finally{booting=false}
+}
+retry.addEventListener('click',boot);
+boot();
+})();
 </script>
 </body>
 </html>
